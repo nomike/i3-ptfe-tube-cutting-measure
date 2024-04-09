@@ -1,8 +1,15 @@
-.PHONY: upload
+# Output directory for generated STL files
+OUTPUT_DIR = output
 
-i3-ptfe-tube-cutting-measure.stl: i3-ptfe-tube-cutting-measure.scad
-	openscad -o $@ $<
+.PHONY: all generate_stls clean
 
-clean: 
-	rm i3-ptfe-tube-cutting-measure.stl
-	
+all: $(OUTPUT_DIR) generate_stls
+
+$(OUTPUT_DIR):
+	mkdir -p $@
+
+generate_stls:
+	openscad_stl_file_generator/generate_stls --output-dir="$(OUTPUT_DIR)"
+
+clean:
+	rm -rf $(OUTPUT_DIR)
